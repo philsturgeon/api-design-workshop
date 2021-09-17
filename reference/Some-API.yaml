@@ -1,0 +1,72 @@
+openapi: 3.1.0
+info:
+  title: Some API
+  version: '1.0'
+  contact:
+    name: Phil Sturgeon
+  description: One API to break every rule in the Style Guide.
+servers:
+  - url: 'http://localhost:3000'
+paths:
+  '/some-url/{someId}':
+    parameters:
+      - name: someId
+        in: path
+        required: true
+        schema:
+          type: integer
+    get:
+      summary: Fetch Collection
+      tags: []
+      operationId: get-ignoringNamingConventions
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: ''
+              type: object
+              properties:
+                firstName:
+                  type: string
+                lastName:
+                  type: string
+                email:
+                  type: string
+                dateOfBirth:
+                  type: string
+              required:
+                - firstName
+                - lastName
+                - email
+                - dateOfBirth
+      description: One endpoint that will trigger as many errors as possible.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  some:
+                    type: string
+                  stuff:
+                    type: string
+                  not:
+                    type: string
+                  hal:
+                    type: string
+components:
+  securitySchemes:
+    User-Pass:
+      type: http
+      scheme: basic
+  schemas:
+    Foo:
+      title: Foo
+      type: object
+      properties:
+        id:
+          type: string
+security:
+  - API Key: []

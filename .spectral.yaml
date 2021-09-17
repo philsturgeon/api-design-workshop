@@ -1,0 +1,61 @@
+extends: [spectral:oas]
+rules:
+  adidas-paths-kebab-case:
+    description: All endpoints/paths MUST follow kebab-case
+    severity: error
+    given: $.paths[*]~
+    then:
+      function: pattern
+      functionOptions:
+        match: "^\/([a-z0-9]+(-[a-z0-9]+)*)?(\/[a-z0-9]+(-[a-z0-9]+)*|\/{.+})*$" 
+
+  adidas-oas3-response-success-hal:
+    description: "All success responses MUST be of media type `application/hal+json` "
+    severity: error
+    given: $.paths..responses[?( @property >= 201 && @property < 300 && @property != 204)].content[*]~
+    recommended: true
+    # type: "style"
+    formats:
+      - oas3
+    then:
+      function: enumeration
+      functionOptions:
+        values:
+          - application/hal+json
+
+  no-http-basic:
+    description: "Consider a more secure alternative to HTTP Basic."
+    message: "HTTP Basic is a pretty insecure way to pass credentials around, please consider an alternative."
+    severity: warn
+    given: $.components.securitySchemes[*]
+    then:
+      field: scheme
+      function: pattern
+      functionOptions:
+        notMatch: basic
+
+  no-numeric-ids:
+    description: Please avoid exposing IDs as an integer, UUIDs are preferred.
+    severity: error
+    given: $.paths..parameters[*].[?(@property === "name" && (@ === "id" || @.match(/(_id|Id)$/)))]^.schema
+    then:
+      function: schema
+      functionOptions: 
+        schema: 
+          type: object
+          not: 
+            properties:
+              type: 
+                const: integer
+          properties:
+            format: 
+              const: uuid
+
+
+  request-GET-no-body:
+    description: A `GET` request MUST NOT accept a request body
+    severity: error
+    formats: [oas3]
+    given: $.paths..get.requestBody
+    then:
+      function: undefined
