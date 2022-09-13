@@ -1,0 +1,116 @@
+openapi: 3.1.0
+x-stoplight:
+  id: gz5k4rnxj7bew
+info:
+  title: subject-api
+  version: '1.0'
+servers:
+  - url: 'http://localhost:3000'
+paths:
+  /subjects:
+    get:
+      summary: get subjects
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/subject'
+        '':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: ./grading-api.yaml#/components/schemas/User
+      operationId: getSubjects
+      description: ''
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ''
+        description: ''
+    post:
+      summary: createCubject
+      tags: []
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/subject'
+      operationId: post-subjects
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/subject'
+    parameters: []
+  '/subject/{subjectId}':
+    get:
+      summary: getSubject
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/subject'
+      operationId: get-subject
+    put:
+      summary: updateSubject
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/subject'
+      operationId: put-subject
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/subject'
+    delete:
+      summary: deleteSubject
+      tags: []
+      responses: {}
+      operationId: delete-subject
+    parameters:
+      - schema:
+          type: string
+        name: subjectId
+        in: path
+        required: true
+        description: The id of a subject
+components:
+  schemas:
+    subject:
+      title: subject
+      x-stoplight:
+        id: y3cjvje7p2k0i
+      type: object
+      properties:
+        id:
+          type: string
+          readOnly: true
+        code:
+          type: string
+        name:
+          type: string
+      examples:
+        - id: 068ea672-fd39-416d-bbd6-507575b6685d
+          code: MA
+          name: Mathematics
+        - id: 43584c4a-dadb-4b91-af43-e059a60496dc
+          code: SE
+          name: Swedish
