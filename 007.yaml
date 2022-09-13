@@ -1,0 +1,253 @@
+openapi: 3.1.0
+x-stoplight:
+  id: cfi1b6s6npv9m
+info:
+  title: getClasses
+  version: '1.0'
+servers:
+  - url: 'http://localhost:3000'
+paths:
+  '/classes/{teacher-id}':
+    post:
+      summary: Creates a new school class for the specificed teacher
+      operationId: create-class
+      responses:
+        '200':
+          description: Class created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SchoolClass'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                firstName:
+                  type: string
+                lastName:
+                  type: string
+                email:
+                  type: string
+                dateOfBirth:
+                  type: string
+                  format: date
+              required:
+                - firstName
+                - lastName
+                - email
+                - dateOfBirth
+            examples:
+              Create User Bob Fellow:
+                value:
+                  firstName: Bob
+                  lastName: Fellow
+                  email: bob.fellow@gmail.com
+                  dateOfBirth: '1996-08-24'
+          application/xml:
+            schema:
+              type: object
+              properties: {}
+        description: Post the necessary fields for the API to create a new user.
+      description: Creates a new class connected to the teacher
+    parameters:
+      - schema:
+          type: string
+        name: teacher-id
+        in: path
+        required: true
+    get:
+      summary: Get Classes
+      operationId: get-classes
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SchoolClass'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SchoolClass'
+        description: ''
+      description: 'Returns the teachers classes '
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: studentId
+          description: Filter on studentId
+  /teachers:
+    get:
+      summary: getTeacher
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Teacher'
+      operationId: get-teacher
+      description: 'Returns a list of teachers '
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: status
+          description: 'active, inactive, expired '
+    parameters: []
+  '/teacher/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-teacher-id
+    post:
+      summary: ''
+      operationId: post-teacher-id
+      responses:
+        '200':
+          description: OK
+      description: Creates a teacher
+    put:
+      summary: ''
+      operationId: put-teacher-id
+      responses:
+        '200':
+          description: OK
+      description: Updates a teacher
+  '/classes/{class-id}/students':
+    parameters:
+      - schema:
+          type: string
+        name: class-id
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Student'
+            application/xml:
+              schema:
+                $ref: ''
+        '201':
+          description: Created
+      operationId: get-classes-class-id-students
+      description: Returns list of students assigned to class
+    put:
+      summary: ''
+      operationId: put-classes-class-id-students
+      responses:
+        '200':
+          description: OK
+      description: Add students to a class
+components:
+  schemas:
+    Teacher:
+      title: Teacher
+      type: object
+      description: ''
+      examples:
+        - id: 142
+          firstName: Alice
+          lastName: Smith
+          email: alice.smith@gmail.com
+          dateOfBirth: '1997-10-31'
+          emailVerified: true
+          signUpDate: '2019-08-24'
+      properties:
+        id:
+          type: integer
+          description: Unique identifier for the given user.
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+          format: email
+        dateOfBirth:
+          type: string
+          format: date
+          example: '1997-10-31'
+        emailVerified:
+          type: boolean
+          description: Set to true if the user's email has been verified.
+        createDate:
+          type: string
+          format: date
+          description: The date that the user was created.
+        status:
+          type: string
+        schoolIds:
+          type: array
+          items:
+            type: string
+      required:
+        - id
+        - firstName
+        - lastName
+        - email
+        - dateOfBirth
+        - emailVerified
+    SchoolClass:
+      title: SchoolClass
+      x-stoplight:
+        id: e1j1zmyy4k0g0
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        startDate:
+          type: string
+        endDate:
+          type: string
+        students:
+          type: array
+          items:
+            type: string
+        schoolId:
+          type: string
+        teacherId:
+          type: array
+          items:
+            type: string
+      required:
+        - name
+        - startDate
+        - endDate
+        - students
+        - schoolId
+        - teacherId
+    Student:
+      title: Student
+      x-stoplight:
+        id: guaui6r5j5k9i
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        '':
+          type: string
