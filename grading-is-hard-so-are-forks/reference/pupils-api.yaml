@@ -1,0 +1,103 @@
+openapi: 3.1.0
+x-stoplight:
+  id: kvqiu93nloyq3
+info:
+  title: grading-api
+  version: '1.0'
+servers:
+  - url: 'http://localhost:3000'
+paths:
+  '/pupils/{pupil_id}':
+    get:
+      summary: Get Pupil
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      operationId: get-pupils
+      description: Get Pupil given their ID.
+    post:
+      summary: Create a Pupil
+      tags: []
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+      operationId: post-pupils
+      description: Create a pupil
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+    delete:
+      summary: Delete a pupil
+      tags: []
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      operationId: delete-pupils
+      description: Delete a pupil given an ID
+    parameters:
+      - schema:
+          type: string
+        name: pupil_id
+        in: path
+        required: true
+        description: ID of the pupil
+components:
+  schemas:
+    User:
+      title: User
+      type: object
+      description: ''
+      examples:
+        - id: 142
+          firstName: Alice
+          lastName: Smith
+          email: alice.smith@gmail.com
+          dateOfBirth: '1997-10-31'
+          emailVerified: true
+          signUpDate: '2019-08-24'
+      properties:
+        id:
+          type: integer
+          description: Unique identifier for the given user.
+          readOnly: true
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+          format: email
+        dateOfBirth:
+          type: string
+          format: date
+          example: '1997-10-31'
+        emailVerified:
+          type: boolean
+          description: Set to true if the user's email has been verified.
+        createDate:
+          type: string
+          format: date
+          description: The date that the user was created.
+      required:
+        - id
+        - firstName
+        - lastName
+        - email
+        - emailVerified
