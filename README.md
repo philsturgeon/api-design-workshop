@@ -8,11 +8,17 @@ Teacher API - Split up in smaller teams and let each team design one microservic
 
 Each team will define endpoints, bare minimum entities and relations between entities.
 
+
 **Tool Suggestions**
   
 - [Stoplight Studio](https://stoplight.io/studio) - Web-based is free for one user only. Desktop is free if you give them your email address.
 - [Apicur Studio](https://www.apicur.io/studio/) - Web-Based and open-source.
 - Various [text editors](https://openapi.tools/#text-editors) on openapi.tools.
+
+**Resources**
+
+- [OpenAPI Documentation](https://github.com/OAI/Documentation/)
+- [OpenAPI Specification](https://spec.openapis.org/)
 
 Send a pull request to this repo with the OpenAPI defined as `/apis/team-name/openapi.yaml`.
 
