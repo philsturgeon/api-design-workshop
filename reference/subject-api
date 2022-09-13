@@ -27,7 +27,7 @@ paths:
                 type: array
                 items:
                   $ref: ./grading-api.yaml#/components/schemas/User
-      operationId: get-subjects
+      operationId: getSubjects
       description: ''
       requestBody:
         content:
@@ -36,7 +36,7 @@ paths:
               $ref: ''
         description: ''
     post:
-      summary: create subject
+      summary: createCubject
       tags: []
       responses:
         '201':
@@ -52,6 +52,46 @@ paths:
             schema:
               $ref: '#/components/schemas/subject'
     parameters: []
+  '/subject/{subjectId}':
+    get:
+      summary: getSubject
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/subject'
+      operationId: get-subject
+    put:
+      summary: updateSubject
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/subject'
+      operationId: put-subject
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/subject'
+    delete:
+      summary: deleteSubject
+      tags: []
+      responses: {}
+      operationId: delete-subject
+    parameters:
+      - schema:
+          type: string
+        name: subjectId
+        in: path
+        required: true
+        description: The id of a subject
 components:
   schemas:
     subject:
