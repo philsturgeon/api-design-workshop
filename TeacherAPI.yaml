@@ -1,0 +1,197 @@
+openapi: 3.1.0
+x-stoplight:
+  id: rf3td75j64uds
+info:
+  title: TeacherAPI
+  version: '1.0'
+servers:
+  - url: 'http://localhost:3000'
+paths:
+  '/users/{userId}':
+    parameters:
+      - schema:
+          type: string
+        name: userId
+        in: path
+        required: true
+    get:
+      summary: ''
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  firstName:
+                    type: string
+                  lastName:
+                    type: string
+                  id:
+                    type: string
+                  email:
+                    type: string
+                  class:
+                    type: array
+                    items:
+                      type: string
+                  subject:
+                    type: array
+                    items:
+                      type: string
+                  role:
+                    type: string
+                    enum:
+                      - TEACHER
+                      - STUDENT
+      operationId: get-users-userId
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: userId
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                firstName:
+                  type: string
+                lastName:
+                  type: string
+                id:
+                  type: string
+                email:
+                  type: string
+                class:
+                  type: array
+                  items:
+                    type: string
+                subject:
+                  type: array
+                  items:
+                    type: string
+                role:
+                  type: string
+                  enum:
+                    - TEACHER
+                    - STUDENT
+    delete:
+      summary: ''
+      operationId: delete-users-userId
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  deleted:
+                    type: boolean
+  /user:
+    post:
+      summary: ''
+      operationId: post-teacher
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  firstName:
+                    type: string
+                  lastName:
+                    type: string
+                  id:
+                    type: string
+                  dateOfBirth:
+                    type: string
+                  class:
+                    type: array
+                    items:
+                      type: string
+                  subject:
+                    type: array
+                    items:
+                      type: string
+                  role:
+                    type: string
+                    enum:
+                      - TEACHER
+                      - STUDENT
+                  email:
+                    type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                firstName:
+                  type: string
+                lastName:
+                  type: string
+                id:
+                  type: string
+                class:
+                  type: array
+                  items:
+                    type: string
+                subject:
+                  type: array
+                  items:
+                    type: string
+                dateOfBirth:
+                  type: string
+                email:
+                  type: string
+    parameters: []
+components:
+  schemas:
+    User:
+      title: User
+      x-stoplight:
+        id: e41i8utccsu6i
+      type: object
+      examples:
+        - id: string
+          firstName: string
+          lastName: string
+          email: string
+          dateOfBirth: string
+          classRoom:
+            - null
+          subject:
+            - null
+          role: TEACHER
+      properties:
+        id:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        dateOfBirth:
+          type: string
+        classRoom:
+          type: array
+          items:
+            type: string
+        subject:
+          type: array
+          items:
+            type: string
+        role:
+          type: string
+          enum:
+            - TEACHER
+            - STUDENT

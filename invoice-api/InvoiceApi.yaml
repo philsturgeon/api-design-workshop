@@ -1,0 +1,189 @@
+openapi: 3.1.0
+x-stoplight:
+  id: fcy23gsu9i5f2
+info:
+  title: Test1
+  version: '1.0'
+servers:
+  - url: 'http://localhost:3000'
+paths:
+  /invoices:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-invoices
+      description: Get all invoices
+    post:
+      summary: ''
+      operationId: post-invoices
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Invoice'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Invoice'
+      description: Create an invoice
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Invoice'
+    parameters: []
+  /pending_invoices:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendInvoiceRequest'
+      operationId: get-pending_invoices
+    post:
+      summary: ''
+      operationId: post-pending_invoices
+      responses:
+        '200':
+          description: OK
+      description: Create an send invoice request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                invoiceId:
+                  type: string
+  '/invoices/{id}/send':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ''
+      operationId: get-invoices-id-send
+    post:
+      summary: ''
+      operationId: post-invoices-id-send
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendInvoiceRequest'
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+  '/pending_invoices/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-pending_invoices-id
+  '/invoices/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Invoice'
+      operationId: get-invoices-id
+components:
+  schemas:
+    InvoiceAmount:
+      title: InvoiceAmount
+      x-stoplight:
+        id: 0ynvfob3kjig1
+      type: object
+      properties:
+        amount:
+          type: number
+        currency:
+          type: string
+    Invoice:
+      title: Invoice
+      x-stoplight:
+        id: d43mjjz3aen8u
+      type: object
+      properties:
+        id:
+          type: string
+        reciever:
+          type: string
+        state:
+          $ref: '#/components/schemas/InvoiceState'
+    InvoiceCreation:
+      title: InvoiceCreation
+      x-stoplight:
+        id: bvmub6a3uc2jz
+      type: object
+      properties:
+        receiver:
+          type: string
+        amount:
+          $ref: '#/components/schemas/InvoiceAmount'
+    InvoiceState:
+      title: InvoiceState
+      x-stoplight:
+        id: o4vkrbzqugce1
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        date:
+          type: string
+        previous_state:
+          type: string
+    SendInvoiceRequest:
+      title: SendInvoiceRequest
+      x-stoplight:
+        id: gwkmom5focs8m
+      type: object
+      properties:
+        id:
+          type: string
+        created:
+          type: string
+        status:
+          type: string
+        error_message:
+          type: string
+        invoiceId:
+          type: string

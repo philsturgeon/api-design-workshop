@@ -1,0 +1,115 @@
+openapi: 3.0.3
+info:
+  title: Systembolaget
+  license:
+    name: GLWTPL
+    url: https://github.com/me-shaon/GLWTPL/blob/master/LICENSE
+  version: 0.1.0
+  description: don't roast me pls
+paths:
+  /beers:
+    get:
+      summary: Get beers
+      parameters:
+        - name: limit
+          in: query
+          description: Amount of beers to fetch
+          required: true
+          schema:
+            type: integer
+            example: 100
+        - name: afterId
+          in: query
+          description: Start beers from id
+          required: true
+          schema:
+            type: string
+            format: uuid
+            example: fa87e9a4-1b70-41ed-bc5e-a4b986d1396c
+      responses:
+        "200":
+          description: successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Beer"
+
+  /beer/{beerId}:
+    get:
+      summary: Get beer by ID
+      parameters:
+        - name: beerId
+          in: path
+          description: ID of beer to return
+          required: true
+          schema:
+            type: string
+            format: uuid
+            example: fa87e9a4-1b70-41ed-bc5e-a4b986d1396c
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Beer"
+  /producer/{producerId}:
+    get:
+      summary: Get producer by ID
+      parameters:
+        - name: producerId
+          in: path
+          description: ID of producer to return
+          required: true
+          schema:
+            type: string
+            format: uuid
+            example: fa87e9a4-1b70-41ed-bc5e-a4b986d1396c
+      responses:
+        "200":
+          description: successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Producer"
+  /producers:
+    summary: Get
+
+components:
+  schemas:
+    Beer:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: fa87e9a4-1b70-41ed-bc5e-a4b986d1396c
+        name:
+          type: string
+          example: Punk IPA
+        producer:
+          type: object
+          $ref: "#/components/schemas/Producer"
+
+    Producer:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: fa87e9a4-1b70-41ed-bc5e-a4b986d1396c
+        name:
+          type: string
+          example: Brewdog
+        beers:
+          type: array
+          items:
+            type: string
+            format: uuid
+            example: fa87e9a4-1b70-41ed-bc5e-a4b986d1396c
+        country:
+          type: string
+          format: ISO 3166-2
+          example: SE

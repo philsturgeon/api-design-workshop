@@ -1,0 +1,163 @@
+openapi: 3.0.3
+info:
+  title: Stockfish
+  description: |-
+    Losing in Chess? Don't worry, no one will catch you with 100% accuracy. Try out this API to improve your game today!
+    
+  contact:
+    email: kinda@sus.gov
+  license:
+    name: DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE 2
+    url: http://www.wtfpl.net/txt/copying/
+  version: 1.0.11
+
+paths:
+  /identity:
+    get:
+      summary: Get an identity state.
+      description: Use this to get an initial state.
+      operationId: identity
+      responses:
+        '200':
+          description: Identity state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BoardState'
+
+
+  /best-move:
+    post:
+      summary: Send a board state to get the current best move.
+      description: Send a board state to get the current best move.
+      operationId: getBestMove
+      requestBody:
+        description: Send a board state and the color to move.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BoardState'
+        required: true
+      responses:
+        '200':
+          description: Successfully calculated an 100% accurate move. 
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Move'
+
+        '400':
+          description: Invalid board state.
+
+        '418':
+          description: The Queen is visiting.
+
+components:
+  schemas:
+    Move:
+      type: object
+      properties:
+        move:
+          type: string
+
+        nextState:
+          $ref: '#/components/schemas/BoardState'
+
+    BoardState:
+      type: object
+
+      properties:
+        grid:
+          type: array
+          minItems: 64
+          maxItems: 64
+          items:
+            type: string
+            enum:
+              - '-'
+              - p
+              - n
+              - b
+              - k
+              - q
+              - P
+              - N
+              - B
+              - K
+              - Q
+          example:
+            - r
+            - n
+            - b
+            - q
+            - k
+            - b
+            - n
+            - r
+            - p
+            - p
+            - p
+            - p
+            - p
+            - p
+            - p
+            - p
+            - '-'
+            - '-'
+            - '-'
+            - '-'
+            - '-'
+            - '-'
+            - '-'
+            - '-'
+            - '-'
+            - '-'
+            - '-'
+            - '-'
+            - '-'
+            - '-'
+            - '-'
+            - '-'
+            - '-'
+            - '-'
+            - '-'
+            - '-'
+            - '-'
+            - '-'
+            - '-'
+            - '-'
+            - '-'
+            - '-'
+            - '-'
+            - '-'
+            - '-'
+            - '-'
+            - '-'
+            - '-'
+            - '-'
+            - P
+            - P
+            - P
+            - P
+            - P
+            - P
+            - P
+            - P
+            - P
+            - R
+            - N
+            - B
+            - Q
+            - K
+            - B
+            - N
+            - R
+
+        hero:
+          type: string
+          description: The next to move.
+          example: white
+          enum:
+            - white
+            - black
+
