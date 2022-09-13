@@ -1,0 +1,186 @@
+openapi: 3.1.0
+x-stoplight:
+  id: bc00rmfgzstur
+info:
+  title: New Teacher API
+  version: '2.0'
+  contact:
+    url: ist.com
+    email: 2@ist.com
+servers:
+  - url: 'http://localhost:3000'
+paths:
+  /teachers:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Teacher'
+              examples:
+                example-1:
+                  value: []
+                example-3:
+                  value:
+                    - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+                      contactInfo:
+                        - contact_information: rolf@rolf.se
+                          contact_type: personalEmail
+                          note: Do not spam
+                      fullName: Rolf Rolfsson
+      operationId: get-teachers
+    post:
+      summary: ''
+      operationId: post-teachers
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Teacher'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorMessage:
+                    type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Teacher'
+            examples:
+              example-1:
+                value:
+                  id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+                  contactInfo:
+                    - contact_information: rolf@rolf.se
+                      contact_type: personalEmail
+                      note: Do not spam
+                  fullName: Rolf Rolfsson
+  '/teacher/{teacherId}/contactInfo/{contactInfoId}':
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Anders-Teacher-API_Contact-Information'
+              examples:
+                example-1:
+                  value:
+                    contact_information: email
+                    contact_type: email
+                    note: string
+                    id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+      operationId: get-teacher
+      description: 'Retrieve a piece of contact info, by ID'
+    parameters:
+      - schema:
+          type: string
+        name: teacherId
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: contactInfoId
+        in: path
+        required: true
+    delete:
+      summary: ''
+      operationId: delete-teacher-teacherId-contactInfo
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: Not Found
+      description: Delete a piece of contact info
+  '/teacher/{teacherId}/fullName':
+    parameters:
+      - schema:
+          type: string
+        name: teacherId
+        in: path
+        required: true
+    patch:
+      summary: ''
+      operationId: patch-teacher-teacherId-fullName
+      responses:
+        '200':
+          description: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties: {}
+components:
+  schemas:
+    Teacher:
+      title: Teacher
+      x-stoplight:
+        id: dchgmbzve33d1
+      type: object
+      description: A teacher
+      properties:
+        id:
+          type: string
+          format: uuid
+        contactInfo:
+          type: array
+          items:
+            $ref: '#/components/schemas/Anders-Teacher-API_Contact-Information'
+        fullName:
+          type: string
+          minLength: 1
+      examples:
+        - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+          contactInfo:
+            - contact_information: rolf@rolf.se
+              contact_type: personalEmail
+              note: Do not spam
+          fullName: Rolf Rolfsson
+    Anders-Teacher-API_Contact-Information:
+      title: Teacher
+      x-stoplight:
+        id: tyy63l36dbj9n
+      type: object
+      properties:
+        contact_information:
+          type: string
+        contact_type:
+          $ref: '#/components/schemas/Anders-Teacher-API_Contact-Type'
+        note:
+          type: string
+        id:
+          type: string
+          format: uuid
+      required:
+        - contact_information
+        - contact_type
+      examples:
+        - contact_information: '+4670000000000'
+          contact_type: personalMobile
+          note: Do not call except if you are on fire
+          id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+    Anders-Teacher-API_Contact-Type:
+      oneOf:
+        - properties: {}
+        - properties: {}
+          enum:
+            - work-phone
+            - personal-email
+      type: string
