@@ -108,7 +108,7 @@ paths:
         '404':
           description: Not Found
       description: Delete a piece of contact info
-  '/teacher/{teacherId}/fullName':
+  '/teacher/{teacherId}':
     parameters:
       - schema:
           type: string
@@ -126,7 +126,17 @@ paths:
           application/json:
             schema:
               type: object
-              properties: {}
+              properties:
+                fullName:
+                  type: string
+              x-examples:
+                example-1:
+                  fullName: Rolf Newname
+            examples:
+              example-1:
+                value:
+                  fullName: Rolf Newname
+      description: ''
 components:
   schemas:
     Teacher:
