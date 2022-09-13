@@ -1,0 +1,203 @@
+openapi: 3.1.0
+info:
+  title: TravelJournal
+  version: '1.0'
+  summary: Document your travels
+  description: ''
+servers:
+  - url: 'http://localhost:3000'
+paths:
+  /users:
+    get:
+      summary: Get users
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  users:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+              examples: {}
+      operationId: getUsers
+      description: ''
+    post:
+      summary: Create user
+      operationId: createUser
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+  '/users/{userId}':
+    parameters:
+      - schema:
+          type: string
+        name: userId
+        in: path
+        required: true
+    get:
+      summary: Get user
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+      operationId: getUser
+  '/users/{userId}/posts':
+    parameters:
+      - schema:
+          type: string
+        name: userId
+        in: path
+        required: true
+    get:
+      summary: Get posts
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  posts:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Post'
+      operationId: getPosts
+    post:
+      summary: Create post
+      operationId: createPost
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Post'
+      description: ''
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Post'
+  /countries:
+    get:
+      summary: Get countries
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  countries:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Country'
+      operationId: getCountries
+      description: ''
+components:
+  schemas:
+    User:
+      title: User
+      type: object
+      examples:
+        - id: string
+          name: string
+          birthDate: '2019-08-24'
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+          minLength: 2
+          maxLength: 255
+        birthDate:
+          type: string
+          format: date
+    Post:
+      title: Post
+      x-stoplight:
+        id: xg9705sxqxcam
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        title:
+          type: string
+        text:
+          type: string
+        created:
+          type: string
+          format: date-time
+          readOnly: true
+        location:
+          $ref: '#/components/schemas/Location'
+    Location:
+      title: Location
+      x-stoplight:
+        id: ehnbg1seaqknv
+      type: object
+      examples:
+        - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+          gpsLocation: '(37.700421688980136, -81.84535319999998)'
+          country:
+            id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+            name: Sweden
+            code: SE
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        gpsLocation:
+          type: string
+        country:
+          $ref: '#/components/schemas/Country'
+        countryId:
+          type: string
+          format: uuid
+          writeOnly: true
+    Country:
+      type: object
+      title: Country
+      x-stoplight:
+        id: xq7umdwn3z6s4
+      examples:
+        - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+          name: Sweden
+          code: SE
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        code:
+          type: string
+      readOnly: true
+  securitySchemes: {}
